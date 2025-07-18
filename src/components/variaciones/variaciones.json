@@ -1,0 +1,50 @@
+{
+  "collectionName": "components_variaciones_variaciones",
+  "info": {
+    "displayName": "Variaciones",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "price": {
+      "type": "integer"
+    },
+    "regularPrice": {
+      "type": "integer"
+    },
+    "stockStatus": {
+      "type": "enumeration",
+      "enum": [
+        "En Existencia",
+        "Agotado"
+      ]
+    },
+    "state": {
+      "type": "enumeration",
+      "enum": [
+        "Activo",
+        "Desactivado"
+      ],
+      "default": "Activo"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "attribute": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::attribute.attribute"
+    }
+  }
+}

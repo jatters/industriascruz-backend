@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_icons_iconos",
+  "info": {
+    "displayName": "Iconos",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "isEcoFriendly": {
+      "type": "boolean",
+      "default": false
+    },
+    "isInternationallyTested": {
+      "type": "boolean",
+      "default": false
+    },
+    "isRetieCompliant": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
