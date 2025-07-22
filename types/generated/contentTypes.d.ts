@@ -34,6 +34,10 @@ export interface AdminApiToken extends Struct.CollectionTypeSchema {
         minLength: 1;
       }> &
       Schema.Attribute.DefaultTo<''>;
+    encryptedKey: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
     expiresAt: Schema.Attribute.DateTime;
     lastUsedAt: Schema.Attribute.DateTime;
     lifespan: Schema.Attribute.BigInteger;
@@ -369,6 +373,43 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiArticuloArticulo extends Struct.CollectionTypeSchema {
+  collectionName: 'articulos';
+  info: {
+    displayName: 'Articulos';
+    pluralName: 'articulos';
+    singularName: 'articulo';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    category: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::post-category.post-category'
+    >;
+    content: Schema.Attribute.Blocks;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::articulo.articulo'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    SEO: Schema.Attribute.Component<'seo.seo', false>;
+    slug: Schema.Attribute.UID<'title'>;
+    tags: Schema.Attribute.Relation<'manyToMany', 'api::post-tag.post-tag'>;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiAttributeAttribute extends Struct.CollectionTypeSchema {
   collectionName: 'attributes';
   info: {
@@ -401,14 +442,45 @@ export interface ApiAttributeAttribute extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiProductCategoryProductCategory
+export interface ApiPostCategoryPostCategory
   extends Struct.CollectionTypeSchema {
-  collectionName: 'product_categories';
+  collectionName: 'post_categories';
   info: {
-    description: '';
-    displayName: 'Categoria de Producto';
-    pluralName: 'product-categories';
-    singularName: 'product-category';
+    displayName: 'Categor\u00EDa de Articulo';
+    pluralName: 'post-categories';
+    singularName: 'post-category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Blocks;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::post-category.post-category'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    posts: Schema.Attribute.Relation<'oneToMany', 'api::articulo.articulo'>;
+    publishedAt: Schema.Attribute.DateTime;
+    SEO: Schema.Attribute.Component<'seo.seo', false>;
+    slug: Schema.Attribute.UID<'name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPostTagPostTag extends Struct.CollectionTypeSchema {
+  collectionName: 'post-tag';
+  info: {
+    displayName: 'Etiquetas de Art\u00EDculos';
+    pluralName: 'post-tags';
+    singularName: 'post-tag';
   };
   options: {
     draftAndPublish: true;
@@ -420,9 +492,46 @@ export interface ApiProductCategoryProductCategory
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
+      'api::post-tag.post-tag'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    posts: Schema.Attribute.Relation<'manyToMany', 'api::articulo.articulo'>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiProductCategoryProductCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'product_categories';
+  info: {
+    description: '';
+    displayName: 'Categor\u00EDa de Producto';
+    pluralName: 'product-categories';
+    singularName: 'product-category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Blocks;
+    firstMenuText: Schema.Attribute.String;
+    icon: Schema.Attribute.Media<'images'>;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
       'api::product-category.product-category'
     > &
       Schema.Attribute.Private;
+    menuOrder: Schema.Attribute.Integer;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     parent_category: Schema.Attribute.Relation<
       'manyToOne',
@@ -430,7 +539,40 @@ export interface ApiProductCategoryProductCategory
     >;
     productos: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
     publishedAt: Schema.Attribute.DateTime;
+    secondMenuText: Schema.Attribute.String;
+    SEO: Schema.Attribute.Component<'seo.seo', false>;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    thirdMenuText: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiProductTagProductTag extends Struct.CollectionTypeSchema {
+  collectionName: 'product-tag';
+  info: {
+    displayName: 'Etiquetas de Productos';
+    pluralName: 'product-tags';
+    singularName: 'product-tag';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-tag.product-tag'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    products: Schema.Attribute.Relation<'manyToMany', 'api::product.product'>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -449,6 +591,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    categoryOrder: Schema.Attribute.Integer;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -476,7 +619,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     maintenanceGuide: Schema.Attribute.Blocks;
     maxShippingDays: Schema.Attribute.Integer;
     minShippingDays: Schema.Attribute.Integer;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     order: Schema.Attribute.Integer;
     price: Schema.Attribute.Integer;
     productCategory: Schema.Attribute.Relation<
@@ -489,12 +632,20 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     shortDescription: Schema.Attribute.Blocks;
     showNewLabel: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     sku: Schema.Attribute.String;
-    slug: Schema.Attribute.UID<'name'>;
-    state: Schema.Attribute.Enumeration<['Activo', 'Desactivado']>;
-    stockStatus: Schema.Attribute.Enumeration<['En existencia', 'Agotado']>;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    state: Schema.Attribute.Enumeration<['Activo', 'Desactivado']> &
+      Schema.Attribute.DefaultTo<'Activo'>;
+    stockStatus: Schema.Attribute.Enumeration<['En existencia', 'Agotado']> &
+      Schema.Attribute.DefaultTo<'En existencia'>;
+    tags: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::product-tag.product-tag'
+    >;
     taxClass: Schema.Attribute.Enumeration<['Standard']> &
       Schema.Attribute.DefaultTo<'Standard'>;
-    type: Schema.Attribute.Enumeration<['Simple', 'Variable']>;
+    type: Schema.Attribute.Enumeration<['Simple', 'Variable']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Simple'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1014,8 +1165,12 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::articulo.articulo': ApiArticuloArticulo;
       'api::attribute.attribute': ApiAttributeAttribute;
+      'api::post-category.post-category': ApiPostCategoryPostCategory;
+      'api::post-tag.post-tag': ApiPostTagPostTag;
       'api::product-category.product-category': ApiProductCategoryProductCategory;
+      'api::product-tag.product-tag': ApiProductTagProductTag;
       'api::product.product': ApiProductProduct;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

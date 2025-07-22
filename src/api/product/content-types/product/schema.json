@@ -10,16 +10,21 @@
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "slug": {
       "type": "uid",
-      "targetField": "name"
+      "targetField": "name",
+      "required": true
     },
     "type": {
       "type": "enumeration",
+      "required": true,
+      "default": "Simple",
       "enum": [
         "Simple",
         "Variable"
@@ -35,17 +40,52 @@
       "type": "blocks"
     },
     "regularPrice": {
-      "type": "integer"
+      "type": "integer",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "type"
+            },
+            "Simple"
+          ]
+        }
+      }
     },
     "price": {
-      "type": "integer"
+      "type": "integer",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "type"
+            },
+            "Simple"
+          ]
+        }
+      }
     },
     "state": {
       "type": "enumeration",
+      "default": "Activo",
       "enum": [
         "Activo",
         "Desactivado"
       ]
+    },
+    "stockStatus": {
+      "type": "enumeration",
+      "default": "En existencia",
+      "enum": [
+        "En existencia",
+        "Agotado"
+      ]
+    },
+    "order": {
+      "type": "integer"
+    },
+    "categoryOrder": {
+      "type": "integer"
     },
     "image": {
       "type": "media",
@@ -63,22 +103,21 @@
         "images"
       ]
     },
-    "stockStatus": {
-      "type": "enumeration",
-      "enum": [
-        "En existencia",
-        "Agotado"
-      ]
-    },
-    "order": {
-      "type": "integer"
-    },
     "taxClass": {
       "type": "enumeration",
+      "default": "Standard",
       "enum": [
         "Standard"
-      ],
-      "default": "Standard"
+      ]
+    },
+    "deliveryMethods": {
+      "type": "enumeration",
+      "enum": [
+        "Producto armado",
+        "Producto en caja",
+        "Producto desarmado",
+        "Incluye instalación"
+      ]
     },
     "minShippingDays": {
       "type": "integer"
@@ -109,42 +148,49 @@
     "videoUrl": {
       "type": "string"
     },
-    "maintenanceGuide": {
-      "type": "blocks"
-    },
-    "SEO": {
-      "type": "component",
-      "repeatable": false,
-      "component": "seo.seo"
-    },
-    "deliveryMethods": {
-      "type": "enumeration",
-      "enum": [
-        "Producto armado",
-        "Producto en caja",
-        "Producto desarmado",
-        "Incluye instalación"
-      ]
-    },
-    "icons": {
-      "type": "component",
-      "repeatable": false,
-      "component": "icons.iconos"
-    },
-    "showNewLabel": {
-      "type": "boolean",
-      "default": false
-    },
     "productCategory": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::product-category.product-category",
       "inversedBy": "productos"
     },
+    "showNewLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "maintenanceGuide": {
+      "type": "blocks"
+    },
+    "SEO": {
+      "type": "component",
+      "component": "seo.seo",
+      "repeatable": false
+    },
+    "icons": {
+      "type": "component",
+      "component": "icons.iconos",
+      "repeatable": false
+    },
     "variations": {
       "type": "component",
-      "repeatable": true,
-      "component": "variaciones.variaciones"
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "type"
+            },
+            "Variable"
+          ]
+        }
+      },
+      "component": "variaciones.variaciones",
+      "repeatable": true
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product-tag.product-tag",
+      "inversedBy": "products"
     }
   }
 }
