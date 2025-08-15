@@ -27,11 +27,11 @@
     },
     "state": {
       "type": "enumeration",
+      "default": "Activo",
       "enum": [
         "Activo",
         "Desactivado"
-      ],
-      "default": "Activo"
+      ]
     },
     "image": {
       "type": "media",
@@ -45,6 +45,36 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::attribute.attribute"
+    },
+    "manageStock": {
+      "type": "boolean",
+      "default": false
+    },
+    "stockQty": {
+      "type": "integer",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "manageStock"
+            },
+            true
+          ]
+        }
+      }
+    },
+    "lowStockAmount": {
+      "type": "integer",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "manageStock"
+            },
+            true
+          ]
+        }
+      }
     }
   }
 }

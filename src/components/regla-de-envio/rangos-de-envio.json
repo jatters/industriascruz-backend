@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_regla_de_envio_rangos_de_envios",
+  "info": {
+    "displayName": "Rango de Volumen"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "minQty": {
+      "type": "integer"
+    },
+    "maxQty": {
+      "type": "integer"
+    },
+    "price": {
+      "type": "integer"
+    }
+  },
+  "config": {}
+}

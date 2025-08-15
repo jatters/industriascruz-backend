@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shipping_classes",
+  "info": {
+    "singularName": "shipping-class",
+    "pluralName": "shipping-classes",
+    "displayName": "Clases de envío"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "wooId": {
+      "type": "integer"
+    },
+    "productos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product",
+      "mappedBy": "shipping_class"
+    }
+  }
+}

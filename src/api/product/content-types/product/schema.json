@@ -12,6 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "wp_id": {
+      "type": "integer",
+      "configurable": false
+    },
     "name": {
       "type": "string",
       "required": true
@@ -191,6 +195,47 @@
       "relation": "manyToMany",
       "target": "api::product-tag.product-tag",
       "inversedBy": "products"
+    },
+    "manageStock": {
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    "stockQty": {
+      "type": "integer",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "manageStock"
+            },
+            true
+          ]
+        }
+      }
+    },
+    "lowStockAmount": {
+      "type": "integer",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "manageStock"
+            },
+            true
+          ]
+        }
+      }
+    },
+    "minOrderQuantity": {
+      "type": "integer",
+      "default": 0
+    },
+    "shipping_class": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipping-class.shipping-class",
+      "inversedBy": "productos"
     }
   }
 }

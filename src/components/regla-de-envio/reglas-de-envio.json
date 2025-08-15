@@ -1,0 +1,66 @@
+{
+  "collectionName": "components_regla_de_envio_reglas_de_envios",
+  "info": {
+    "displayName": "Reglas de envío"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "enumeration",
+      "enum": ["Pago", "Gratuito", "Cotizar"],
+      "default": "Pago",
+      "required": true
+    },
+    "price": {
+      "type": "integer",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "mode"
+            },
+            "Pago"
+          ]
+        }
+      }
+    },
+    "shippingClass": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipping-class.shipping-class"
+    },
+    "byVolume": {
+      "type": "boolean",
+      "default": false,
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "mode"
+            },
+            "Pago"
+          ]
+        }
+      }
+    },
+    "ranges": {
+      "type": "component",
+      "repeatable": true,
+      "component": "regla-de-envio.rangos-de-envio",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "byVolume"
+            },
+            true
+          ]
+        }
+      }
+    }
+  },
+  "config": {}
+}

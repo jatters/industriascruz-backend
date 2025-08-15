@@ -442,6 +442,71 @@ export interface ApiAttributeAttribute extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCityCity extends Struct.CollectionTypeSchema {
+  collectionName: 'cities';
+  info: {
+    displayName: 'Ciudades';
+    pluralName: 'cities';
+    singularName: 'city';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    department: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::department.department'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::city.city'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    wooId: Schema.Attribute.Integer;
+  };
+}
+
+export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
+  collectionName: 'departments';
+  info: {
+    displayName: 'Departamentos';
+    pluralName: 'departments';
+    singularName: 'department';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cities: Schema.Attribute.Relation<'oneToMany', 'api::city.city'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::department.department'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    shipping_zone: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::shipping-zone.shipping-zone'
+    >;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    wooId: Schema.Attribute.Integer;
+  };
+}
+
 export interface ApiPostCategoryPostCategory
   extends Struct.CollectionTypeSchema {
   collectionName: 'post_categories';
@@ -495,10 +560,10 @@ export interface ApiPostTagPostTag extends Struct.CollectionTypeSchema {
       'api::post-tag.post-tag'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     posts: Schema.Attribute.Relation<'manyToMany', 'api::articulo.articulo'>;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'name'>;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -616,8 +681,11 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     longDescription: Schema.Attribute.Blocks;
+    lowStockAmount: Schema.Attribute.Integer;
     maintenanceGuide: Schema.Attribute.Blocks;
+    manageStock: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     maxShippingDays: Schema.Attribute.Integer;
+    minOrderQuantity: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     minShippingDays: Schema.Attribute.Integer;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     order: Schema.Attribute.Integer;
@@ -629,12 +697,17 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     regularPrice: Schema.Attribute.Integer;
     SEO: Schema.Attribute.Component<'seo.seo', false>;
+    shipping_class: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::shipping-class.shipping-class'
+    >;
     shortDescription: Schema.Attribute.Blocks;
     showNewLabel: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     sku: Schema.Attribute.String;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     state: Schema.Attribute.Enumeration<['Activo', 'Desactivado']> &
       Schema.Attribute.DefaultTo<'Activo'>;
+    stockQty: Schema.Attribute.Integer;
     stockStatus: Schema.Attribute.Enumeration<['En existencia', 'Agotado']> &
       Schema.Attribute.DefaultTo<'En existencia'>;
     tags: Schema.Attribute.Relation<
@@ -653,6 +726,77 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     videoUrl: Schema.Attribute.String;
     weight: Schema.Attribute.Integer;
     width: Schema.Attribute.Integer;
+    wp_id: Schema.Attribute.Integer;
+  };
+}
+
+export interface ApiShippingClassShippingClass
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'shipping_classes';
+  info: {
+    displayName: 'Clases de env\u00EDo';
+    pluralName: 'shipping-classes';
+    singularName: 'shipping-class';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::shipping-class.shipping-class'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    productos: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    wooId: Schema.Attribute.Integer;
+  };
+}
+
+export interface ApiShippingZoneShippingZone
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'shipping_zones';
+  info: {
+    displayName: 'Zonas de Env\u00EDo';
+    pluralName: 'shipping-zones';
+    singularName: 'shipping-zone';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    departments: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::department.department'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::shipping-zone.shipping-zone'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    shippingRules: Schema.Attribute.Component<
+      'regla-de-envio.reglas-de-envio',
+      true
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    wooZoneId: Schema.Attribute.Integer;
   };
 }
 
@@ -1167,11 +1311,15 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::articulo.articulo': ApiArticuloArticulo;
       'api::attribute.attribute': ApiAttributeAttribute;
+      'api::city.city': ApiCityCity;
+      'api::department.department': ApiDepartmentDepartment;
       'api::post-category.post-category': ApiPostCategoryPostCategory;
       'api::post-tag.post-tag': ApiPostTagPostTag;
       'api::product-category.product-category': ApiProductCategoryProductCategory;
       'api::product-tag.product-tag': ApiProductTagProductTag;
       'api::product.product': ApiProductProduct;
+      'api::shipping-class.shipping-class': ApiShippingClassShippingClass;
+      'api::shipping-zone.shipping-zone': ApiShippingZoneShippingZone;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
