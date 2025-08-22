@@ -1,241 +1,241 @@
 {
-  "kind": "collectionType",
-  "collectionName": "products",
-  "info": {
-    "singularName": "product",
-    "pluralName": "products",
-    "displayName": "Productos",
-    "description": ""
-  },
-  "options": {
-    "draftAndPublish": true
-  },
-  "pluginOptions": {},
-  "attributes": {
-    "wp_id": {
-      "type": "integer",
-      "configurable": false
+    "kind": "collectionType",
+    "collectionName": "products",
+    "info": {
+      "singularName": "product",
+      "pluralName": "products",
+      "displayName": "Productos",
+      "description": ""
     },
-    "name": {
-      "type": "string",
-      "required": true
+    "options": {
+      "draftAndPublish": true
     },
-    "slug": {
-      "type": "uid",
-      "targetField": "name",
-      "required": true
-    },
-    "type": {
-      "type": "enumeration",
-      "required": true,
-      "default": "Simple",
-      "enum": [
-        "Simple",
-        "Variable"
-      ]
-    },
-    "sku": {
-      "type": "string"
-    },
-    "shortDescription": {
-      "type": "blocks"
-    },
-    "longDescription": {
-      "type": "blocks"
-    },
-    "regularPrice": {
-      "type": "integer",
-      "conditions": {
-        "visible": {
-          "==": [
-            {
-              "var": "type"
-            },
-            "Simple"
-          ]
-        }
-      }
-    },
-    "price": {
-      "type": "integer",
-      "conditions": {
-        "visible": {
-          "==": [
-            {
-              "var": "type"
-            },
-            "Simple"
-          ]
-        }
-      }
-    },
-    "state": {
-      "type": "enumeration",
-      "default": "Activo",
-      "enum": [
-        "Activo",
-        "Desactivado"
-      ]
-    },
-    "stockStatus": {
-      "type": "enumeration",
-      "default": "En existencia",
-      "enum": [
-        "En existencia",
-        "Agotado"
-      ]
-    },
-    "order": {
-      "type": "integer"
-    },
-    "categoryOrder": {
-      "type": "integer"
-    },
-    "image": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
-    "gallery": {
-      "type": "media",
-      "multiple": true,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
-    "taxClass": {
-      "type": "enumeration",
-      "default": "Standard",
-      "enum": [
-        "Standard"
-      ]
-    },
-    "deliveryMethods": {
-      "type": "enumeration",
-      "enum": [
-        "Producto armado",
-        "Producto en caja",
-        "Producto desarmado",
-        "Incluye instalación"
-      ]
-    },
-    "minShippingDays": {
-      "type": "integer"
-    },
-    "maxShippingDays": {
-      "type": "integer"
-    },
-    "height": {
-      "type": "integer"
-    },
-    "width": {
-      "type": "integer"
-    },
-    "depth": {
-      "type": "integer"
-    },
-    "weight": {
-      "type": "integer"
-    },
-    "datasheet": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "files"
-      ]
-    },
-    "videoUrl": {
-      "type": "string"
-    },
-    "productCategory": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::product-category.product-category",
-      "inversedBy": "productos"
-    },
-    "showNewLabel": {
-      "type": "boolean",
-      "default": false
-    },
-    "maintenanceGuide": {
-      "type": "blocks"
-    },
-    "SEO": {
-      "type": "component",
-      "component": "seo.seo",
-      "repeatable": false
-    },
-    "icons": {
-      "type": "component",
-      "component": "icons.iconos",
-      "repeatable": false
-    },
-    "variations": {
-      "type": "component",
-      "conditions": {
-        "visible": {
-          "==": [
-            {
-              "var": "type"
-            },
-            "Variable"
-          ]
+    "pluginOptions": {},
+    "attributes": {
+      "wp_id": {
+        "type": "integer",
+        "configurable": false
+      },
+      "name": {
+        "type": "string",
+        "required": true
+      },
+      "slug": {
+        "type": "uid",
+        "targetField": "name",
+        "required": true
+      },
+      "type": {
+        "type": "enumeration",
+        "required": true,
+        "default": "Simple",
+        "enum": [
+          "Simple",
+          "Variable"
+        ]
+      },
+      "sku": {
+        "type": "string"
+      },
+      "shortDescription": {
+        "type": "blocks"
+      },
+      "longDescription": {
+        "type": "blocks"
+      },
+      "regularPrice": {
+        "type": "integer",
+        "conditions": {
+          "visible": {
+            "==": [
+              {
+                "var": "type"
+              },
+              "Simple"
+            ]
+          }
         }
       },
-      "component": "variaciones.variaciones",
-      "repeatable": true
-    },
-    "tags": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::product-tag.product-tag",
-      "inversedBy": "products"
-    },
-    "manageStock": {
-      "type": "boolean",
-      "required": false,
-      "default": false
-    },
-    "stockQty": {
-      "type": "integer",
-      "conditions": {
-        "visible": {
-          "==": [
-            {
-              "var": "manageStock"
-            },
-            true
-          ]
+      "price": {
+        "type": "integer",
+        "conditions": {
+          "visible": {
+            "==": [
+              {
+                "var": "type"
+              },
+              "Simple"
+            ]
+          }
         }
-      }
-    },
-    "lowStockAmount": {
-      "type": "integer",
-      "conditions": {
-        "visible": {
-          "==": [
-            {
-              "var": "manageStock"
-            },
-            true
-          ]
+      },
+      "state": {
+        "type": "enumeration",
+        "default": "Activo",
+        "enum": [
+          "Activo",
+          "Desactivado"
+        ]
+      },
+      "stockStatus": {
+        "type": "enumeration",
+        "default": "En existencia",
+        "enum": [
+          "En existencia",
+          "Agotado"
+        ]
+      },
+      "order": {
+        "type": "integer"
+      },
+      "categoryOrder": {
+        "type": "integer"
+      },
+      "image": {
+        "type": "media",
+        "multiple": false,
+        "required": false,
+        "allowedTypes": [
+          "images"
+        ]
+      },
+      "gallery": {
+        "type": "media",
+        "multiple": true,
+        "required": false,
+        "allowedTypes": [
+          "images"
+        ]
+      },
+      "taxClass": {
+        "type": "enumeration",
+        "default": "Standard",
+        "enum": [
+          "Standard"
+        ]
+      },
+      "deliveryMethods": {
+        "type": "enumeration",
+        "enum": [
+          "Producto armado",
+          "Producto en caja",
+          "Producto desarmado",
+          "Incluye instalación"
+        ]
+      },
+      "minShippingDays": {
+        "type": "integer"
+      },
+      "maxShippingDays": {
+        "type": "integer"
+      },
+      "height": {
+        "type": "integer"
+      },
+      "width": {
+        "type": "integer"
+      },
+      "depth": {
+        "type": "integer"
+      },
+      "weight": {
+        "type": "integer"
+      },
+      "datasheet": {
+        "type": "media",
+        "multiple": false,
+        "required": false,
+        "allowedTypes": [
+          "files"
+        ]
+      },
+      "videoUrl": {
+        "type": "string"
+      },
+      "productCategory": {
+        "type": "relation",
+        "relation": "manyToOne",
+        "target": "api::product-category.product-category",
+        "inversedBy": "productos"
+      },
+      "showNewLabel": {
+        "type": "boolean",
+        "default": false
+      },
+      "maintenanceGuide": {
+        "type": "blocks"
+      },
+      "SEO": {
+        "type": "component",
+        "component": "seo.seo",
+        "repeatable": false
+      },
+      "icons": {
+        "type": "component",
+        "component": "icons.iconos",
+        "repeatable": false
+      },
+      "variations": {
+        "type": "component",
+        "conditions": {
+          "visible": {
+            "==": [
+              {
+                "var": "type"
+              },
+              "Variable"
+            ]
+          }
+        },
+        "component": "variaciones.variaciones",
+        "repeatable": true
+      },
+      "tags": {
+        "type": "relation",
+        "relation": "manyToMany",
+        "target": "api::product-tag.product-tag",
+        "inversedBy": "products"
+      },
+      "manageStock": {
+        "type": "boolean",
+        "required": false,
+        "default": false
+      },
+      "stockQty": {
+        "type": "integer",
+        "conditions": {
+          "visible": {
+            "==": [
+              {
+                "var": "manageStock"
+              },
+              true
+            ]
+          }
         }
+      },
+      "lowStockAmount": {
+        "type": "integer",
+        "conditions": {
+          "visible": {
+            "==": [
+              {
+                "var": "manageStock"
+              },
+              true
+            ]
+          }
+        }
+      },
+      "minOrderQuantity": {
+        "type": "integer",
+        "default": 0
+      },
+      "shipping_class": {
+        "type": "relation",
+        "relation": "manyToOne",
+        "target": "api::shipping-class.shipping-class",
+        "inversedBy": "productos"
       }
-    },
-    "minOrderQuantity": {
-      "type": "integer",
-      "default": 0
-    },
-    "shipping_class": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::shipping-class.shipping-class",
-      "inversedBy": "productos"
     }
   }
-}
