@@ -815,7 +815,7 @@ export interface ApiRedirectionRedirection extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'Redirecci\u00F3n Permanente 308'>;
-    sourceURL: Schema.Attribute.UID &
+    sourceUrl: Schema.Attribute.UID &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'/'>;
     state: Schema.Attribute.Boolean &

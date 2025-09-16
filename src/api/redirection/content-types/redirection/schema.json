@@ -11,7 +11,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "sourceURL": {
+    "sourceUrl": {
       "type": "uid",
       "required": true,
       "default": "/",
