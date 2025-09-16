@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "redirections",
+  "info": {
+    "singularName": "redirection",
+    "pluralName": "redirections",
+    "displayName": "Redirecciones"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "sourceURL": {
+      "type": "uid",
+      "required": true,
+      "default": "/",
+      "regex": "^\\/[a-zA-Z0-9-._~:?#@!$&'()*+,;=\\/]*$"
+    },
+    "destinationUrl": {
+      "type": "string",
+      "required": true,
+      "regex": "^\\/[a-zA-Z0-9-._~:?#@!$&'()*+,;=\\/]*$"
+    },
+    "redirectionType": {
+      "type": "enumeration",
+      "required": true,
+      "default": "Redirección Permanente 308",
+      "enum": [
+        "Redirección Temporal 307",
+        "Redirección Permanente 308"
+      ]
+    },
+    "state": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    }
+  }
+}

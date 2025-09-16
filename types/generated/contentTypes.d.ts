@@ -507,6 +507,64 @@ export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
+  collectionName: 'orders';
+  info: {
+    displayName: 'Pedidos';
+    pluralName: 'orders';
+    singularName: 'order';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    companyName: Schema.Attribute.String;
+    coupon: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    creationDate: Schema.Attribute.Date;
+    customerAddress: Schema.Attribute.String;
+    customerAddressComplement: Schema.Attribute.String;
+    customerCity: Schema.Attribute.String;
+    customerDepartment: Schema.Attribute.String;
+    customerDocumentType: Schema.Attribute.Enumeration<
+      ['C\u00E9dula', 'C\u00E9dula de extranjer\u00EDa', 'NIT', 'Pasaporte']
+    >;
+    customerLastname: Schema.Attribute.String;
+    customerMail: Schema.Attribute.Email;
+    customerMobile: Schema.Attribute.Integer;
+    customerName: Schema.Attribute.String;
+    customerPhone: Schema.Attribute.Integer;
+    document: Schema.Attribute.String;
+    items: Schema.Attribute.JSON;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::order.order'> &
+      Schema.Attribute.Private;
+    orderNumber: Schema.Attribute.Integer;
+    orderState: Schema.Attribute.Enumeration<
+      ['Pendiente', 'Cancelado', 'Pago', 'Completado']
+    >;
+    paymentId: Schema.Attribute.String;
+    paymentMethod: Schema.Attribute.String;
+    paymentStatus: Schema.Attribute.Enumeration<
+      [
+        'Pendiente',
+        'Rechazado',
+        'Pago Total',
+        'Pago parcial',
+        'Pendiente de aprobaci\u00F3n',
+        'No aprobado',
+      ]
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    total: Schema.Attribute.Integer;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPostCategoryPostCategory
   extends Struct.CollectionTypeSchema {
   collectionName: 'post_categories';
@@ -727,6 +785,45 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     weight: Schema.Attribute.Integer;
     width: Schema.Attribute.Integer;
     wp_id: Schema.Attribute.Integer;
+  };
+}
+
+export interface ApiRedirectionRedirection extends Struct.CollectionTypeSchema {
+  collectionName: 'redirections';
+  info: {
+    displayName: 'Redirecciones';
+    pluralName: 'redirections';
+    singularName: 'redirection';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    destinationUrl: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::redirection.redirection'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    redirectionType: Schema.Attribute.Enumeration<
+      ['Redirecci\u00F3n Temporal 307', 'Redirecci\u00F3n Permanente 308']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Redirecci\u00F3n Permanente 308'>;
+    sourceURL: Schema.Attribute.UID &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'/'>;
+    state: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1313,11 +1410,13 @@ declare module '@strapi/strapi' {
       'api::attribute.attribute': ApiAttributeAttribute;
       'api::city.city': ApiCityCity;
       'api::department.department': ApiDepartmentDepartment;
+      'api::order.order': ApiOrderOrder;
       'api::post-category.post-category': ApiPostCategoryPostCategory;
       'api::post-tag.post-tag': ApiPostTagPostTag;
       'api::product-category.product-category': ApiProductCategoryProductCategory;
       'api::product-tag.product-tag': ApiProductTagProductTag;
       'api::product.product': ApiProductProduct;
+      'api::redirection.redirection': ApiRedirectionRedirection;
       'api::shipping-class.shipping-class': ApiShippingClassShippingClass;
       'api::shipping-zone.shipping-zone': ApiShippingZoneShippingZone;
       'plugin::content-releases.release': PluginContentReleasesRelease;

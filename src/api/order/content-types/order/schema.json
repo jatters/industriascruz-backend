@@ -1,0 +1,98 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "Pedidos"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "creationDate": {
+      "type": "date"
+    },
+    "orderNumber": {
+      "type": "integer"
+    },
+    "orderState": {
+      "type": "enumeration",
+      "enum": [
+        "Pendiente",
+        "Cancelado",
+        "Pago",
+        "Completado"
+      ]
+    },
+    "customerName": {
+      "type": "string"
+    },
+    "customerLastname": {
+      "type": "string"
+    },
+    "companyName": {
+      "type": "string"
+    },
+    "customerDocumentType": {
+      "type": "enumeration",
+      "enum": [
+        "Cédula",
+        "Cédula de extranjería",
+        "NIT",
+        "Pasaporte"
+      ]
+    },
+    "document": {
+      "type": "string"
+    },
+    "customerMobile": {
+      "type": "integer"
+    },
+    "customerPhone": {
+      "type": "integer"
+    },
+    "customerMail": {
+      "type": "email"
+    },
+    "customerCity": {
+      "type": "string"
+    },
+    "customerDepartment": {
+      "type": "string"
+    },
+    "customerAddress": {
+      "type": "string"
+    },
+    "customerAddressComplement": {
+      "type": "string"
+    },
+    "items": {
+      "type": "json"
+    },
+    "total": {
+      "type": "integer"
+    },
+    "coupon": {
+      "type": "string"
+    },
+    "paymentStatus": {
+      "type": "enumeration",
+      "enum": [
+        "Pendiente",
+        "Rechazado",
+        "Pago Total",
+        "Pago parcial",
+        "Pendiente de aprobación",
+        "No aprobado"
+      ]
+    },
+    "paymentMethod": {
+      "type": "string"
+    },
+    "paymentId": {
+      "type": "string"
+    }
+  }
+}
